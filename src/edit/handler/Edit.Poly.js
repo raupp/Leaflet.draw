@@ -60,10 +60,15 @@ L.Edit.Poly = L.Handler.extend({
 		var latlngs = this._poly._latlngs,
 			i, j, len, marker;
 
+		//workaroud pra funcionar com a versão 1.0-dev
+		if(latlngs.length === 1){
+			//Quando é um polygon, todos os pontos vem dentro de um array de array
+			latlngs = latlngs[0];
+		}
+
 		// TODO refactor holes implementation in Polygon to support it here
 
 		for (i = 0, len = latlngs.length; i < len; i++) {
-
 			marker = this._createMarker(latlngs[i], i);
 			marker.on('click', this._onMarkerClick, this);
 			this._markers.push(marker);
@@ -193,26 +198,26 @@ L.Edit.Poly = L.Handler.extend({
 
 		onDragStart = function () {
 			var i = marker2._index;
-
 			marker._index = i;
-
 			marker
 			    .off('click', onClick, this)
 			    .on('click', this._onMarkerClick, this);
-
 			latlng.lat = marker.getLatLng().lat;
 			latlng.lng = marker.getLatLng().lng;
-			this._poly.spliceLatLngs(i, 0, latlng);
+			var lnlgs = this._poly.getLatLngs();
+			if(lnlgs.length == 1){
+				lnlgs = lnlgs[0];
+			}
+			lnlgs.splice(i,0,latlng);
+			this._poly.setLatLngs(lnlgs);
 			this._markers.splice(i, 0, marker);
-
 			marker.setOpacity(1);
-
 			this._updateIndexes(i, 1);
 			marker2._index++;
 			this._updatePrevNext(marker1, marker);
 			this._updatePrevNext(marker, marker2);
-
 			this._poly.fire('editstart');
+			this._poly.redraw();
 		};
 
 		onDragEnd = function () {
