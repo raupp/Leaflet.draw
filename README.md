@@ -1,4 +1,4 @@
-# Important Before :)
+# Port for leaflet 1.0.0-beta.2
 Try to make this plugin to work with leaflet 1.0.0-beta.2
  - Polygon working
  - Polyline working
