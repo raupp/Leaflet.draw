@@ -1,3 +1,10 @@
+# Important Before :)
+Try to make this plugin to work with leaflet 1.0.0-beta.2
+ - Polygon working
+ - Polyline working
+ 
+ --need more tests... :(
+
 # Important
 Leaflet.draw 0.2.3+ requires [Leaflet 0.7.x](https://github.com/Leaflet/Leaflet/releases).
 
