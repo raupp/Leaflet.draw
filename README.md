@@ -1,9 +1,19 @@
 # Port for leaflet 1.0.0-beta.2
-Try to make this plugin to work with leaflet 1.0.0-beta.2
+Try to work with leaflet 1.0.0-beta.2
  - Polygon working
  - Polyline working
- 
- --need more tests... :(
+ - Circle working
+ - Rectangle working
+ - Marker (point) working
+
+ ### known issue
+  - after editing, the shapes keeps the dotted border
+  - only work with Leaflet 1.0.0-beta+
+
+ ##### need a lot of tests.
+ #
+
+### ++______________From Original Fork _____________++
 
 # Important
 Leaflet.draw 0.2.3+ requires [Leaflet 0.7.x](https://github.com/Leaflet/Leaflet/releases).

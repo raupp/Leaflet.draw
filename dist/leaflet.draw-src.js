@@ -920,7 +920,7 @@ L.Draw.Circle = L.Draw.SimpleShape.extend({
 	},
 
 	_fireCreatedEvent: function () {
-		var circle = new L.Circle(this._startLatLng, this._shape.getRadius(), this.options.shapeOptions);
+		var circle = new L.circle(this._startLatLng, this._shape.getRadius(), this.options.shapeOptions);
 		L.Draw.SimpleShape.prototype._fireCreatedEvent.call(this, circle);
 	},
 
@@ -1622,7 +1622,7 @@ L.Edit.Rectangle = L.Edit.SimpleShape.extend({
 	},
 
 	_move: function (newCenter) {
-		var latlngs = this._shape.getLatLngs(),
+		var latlngs = this._shape.getLatLngs()[0],// [[latlng,latlng,latlng]] why?
 			bounds = this._shape.getBounds(),
 			center = bounds.getCenter(),
 			offset, newLatLngs = [];
@@ -1966,6 +1966,28 @@ L.Polygon.include({
 
 		// Check the line segment between last and first point. Don't need to check the first line segment (minIndex = 1)
 		return this._lineSegmentsIntersectsRange(lastPoint, firstPoint, maxIndex, 1);
+	}
+});
+
+L.Polygon.include({
+	//verify if a point is inside the polygon. Ignore Polygon holes
+	hasPoint: function (point) {
+		//probable has a better way to do that without unprojecting
+		var vs = this._rings[0];
+		point = this._map.latLngToLayerPoint(point);
+		var x = point.x, y = point.y;
+
+		var inside = false;
+		for (var i = 0, j = vs.length - 1; i < vs.length; j = i++) {
+			var xi = vs[i]['x'], yi = vs[i]['y'];
+			var xj = vs[j]['x'], yj = vs[j]['y'];
+
+			var intersect = ((yi > y) != (yj > y))
+				&& (x < (xj - xi) * (y - yi) / (yj - yi) + xi);
+			if (intersect) inside = !inside;
+		}
+
+		return inside;
 	}
 });
 
