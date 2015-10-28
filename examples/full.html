@@ -17,6 +17,7 @@
 	<script src="../src/ext/LineUtil.Intersect.js"></script>
 	<script src="../src/ext/Polygon.Intersect.js"></script>
 	<script src="../src/ext/Polyline.Intersect.js"></script>
+	<script src="../src/ext/Polygon.HasPoint.js"></script>
 
 
 	<script src="../src/draw/DrawToolbar.js"></script>
@@ -62,14 +63,14 @@
 		map.on('draw:created', function(event) {
 			var layer = event.layer;
 			drawnItems.addLayer(layer);
-           // console.log(layer, circle);
+            console.log(layer, circle);
             if(event.layerType === "polygon" && layer.hasPoint(circle.getLatLng())){
                 alert("The point is inside a created polygon");
             }
 		});
         map.on('draw:edited', function(event) {
             var layers = event.layers;
-           // console.log(layers, circle);
+            console.log(layers, circle);
             layers.eachLayer(function(layer) {
                 if (typeof layer.hasPoint === "function" && layer.hasPoint(circle.getLatLng())) {
                     alert("The point is inside one of edited polygon");
