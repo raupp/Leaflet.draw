@@ -3,7 +3,9 @@ L.Polygon.include({
 	hasPoint: function (point) {
 		//probable has a better way to do that without unprojecting
 		var vs = this._rings[0];
-		point = this._map.latLngToLayerPoint(point);
+		if(point instanceof L.LatLng){
+			point = this._map.latLngToLayerPoint(point);
+		}
 		var x = point.x, y = point.y;
 
 		var inside = false;
